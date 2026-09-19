@@ -1,4 +1,5 @@
 import "./Home.css";
+import OrderForm from "./OrderForm.jsx";
 import demoVideo from "../assets/demo.mp4";
 import toolsImage from "../assets/tools.jpeg";
 import toolsImage2 from "../assets/tools-1.jpeg";
@@ -77,7 +78,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
+
+        <OrderForm />
       </section>
     </>
   );
