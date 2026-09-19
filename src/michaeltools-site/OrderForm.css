@@ -86,3 +86,15 @@
 .order-btn:disabled {
   opacity: 0.6;
 }
+
+.order-warning {
+  background: #fdecea;
+  color: #b3261e;
+  border: 2px solid #e63222;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}

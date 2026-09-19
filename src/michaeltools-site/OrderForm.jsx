@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./OrderForm.css";
 
-// Orders go to this Gmail
-const CLIENT_EMAIL = "udochukwumicael234@gmail.com";
+// FormSubmit string (hides the client's Gmail)
+const FORM_ID = "a631ee88e0cf9d5ef98680a231d68351";
 
 // Developer credit at the bottom of the page
 const DEV_NUMBER = "2349027090880";
@@ -24,7 +24,7 @@ export default function OrderForm() {
     setStatus("sending");
 
     try {
-      const res = await fetch(`https://formsubmit.co/ajax/${CLIENT_EMAIL}`, {
+      const res = await fetch(`https://formsubmit.co/ajax/${FORM_ID}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +54,12 @@ export default function OrderForm() {
       <div className="order" id="order">
         <h2>Place Your Order</h2>
         <p className="order-sub">
-          Fill the form below. Pay on delivery, and delivery is free. PLEASE ONLY ORDER IF YOU WILL BE AVAILABLE FOR DELIVERY AND YOU HAVE THE CASH WITH YOU!!!
+          Fill the form below. Pay on delivery, and delivery is free.
+        </p>
+
+        <p className="order-warning">
+          PLEASE ONLY ORDER IF YOU WILL BE AVAILABLE FOR DELIVERY AND YOU HAVE
+          THE CASH WITH YOU!
         </p>
 
         {status === "sent" && (
