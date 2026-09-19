@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./OrderForm.css";
 
-// Customers' orders go to this WhatsApp number (country code, no + or spaces)
-const WHATSAPP = "2349027090880";
+// Orders go to this Gmail
+const CLIENT_EMAIL = "udochukwumicael234@gmail.com";
 
 // Developer credit at the bottom of the page
 const DEV_NUMBER = "2349027090880";
@@ -15,21 +15,38 @@ export default function OrderForm() {
     state: "",
     address: "",
   });
+  const [status, setStatus] = useState("");
 
   const change = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    const msg =
-      "NEW ORDER: Mini-Retainer Kit\n" +
-      `Name: ${form.name}\n` +
-      `Phone: ${form.phone}\n` +
-      `State/City: ${form.state}\n` +
-      `Address: ${form.address}`;
-    window.open(
-      `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,
-      "_blank"
-    );
+    setStatus("sending");
+
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${CLIENT_EMAIL}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _subject: `New Order: ${form.name}`,
+          _template: "table",
+          _captcha: "false",
+          Name: form.name,
+          Phone: form.phone,
+          "State/City": form.state,
+          Address: form.address,
+        }),
+      });
+
+      if (!res.ok) throw new Error("failed");
+      setStatus("sent");
+      setForm({ name: "", phone: "", state: "", address: "" });
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -37,8 +54,17 @@ export default function OrderForm() {
       <div className="order" id="order">
         <h2>Place Your Order</h2>
         <p className="order-sub">
-          Fill the form below. Pay on delivery, and delivery is free.
+          Fill the form below. Pay on delivery, and delivery is free. PLEASE ONLY ORDER IF YOU WILL BE AVAILABLE FOR DELIVERY AND YOU HAVE THE CASH WITH YOU!!!
         </p>
+
+        {status === "sent" && (
+          <p className="order-thanks">
+            Thank you! Your order has been received. We will call you shortly.
+          </p>
+        )}
+        {status === "error" && (
+          <p className="order-error">Something went wrong. Please try again.</p>
+        )}
 
         <form onSubmit={submit}>
           <label>Full Name</label>
@@ -66,8 +92,12 @@ export default function OrderForm() {
             required
           />
 
-          <button type="submit" className="order-btn">
-            SEND MY ORDER
+          <button
+            type="submit"
+            className="order-btn"
+            disabled={status === "sending"}
+          >
+            {status === "sending" ? "SENDING..." : "SEND MY ORDER"}
           </button>
         </form>
       </div>
