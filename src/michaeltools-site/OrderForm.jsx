@@ -5,8 +5,8 @@ import "./OrderForm.css";
 const FORM_ID = "a631ee88e0cf9d5ef98680a231d68351";
 
 // Developer credit at the bottom of the page
-const DEV_NUMBER = "2349027090880";
-const DEV_DISPLAY = "0902 709 0880";
+const DEV_NUMBER = "";
+const DEV_DISPLAY = "";
 
 export default function OrderForm() {
   const [form, setForm] = useState({
@@ -108,7 +108,7 @@ export default function OrderForm() {
       </div>
 
       <footer className="dev-credit">
-        Developed by{" "}
+        {" "}
         <a
           href={`https://wa.me/${DEV_NUMBER}`}
           target="_blank"
